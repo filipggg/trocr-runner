@@ -10,9 +10,13 @@ no detection of text lines), e.g.:
 
     git://gonito.net/fiszki-bare-hwr
 
-Hook up this repo as a subrepo:
+You'll likely need to get annexed files:
 
     cd fiszki-bare-hwr
+    ./get-annexed-files.sh
+
+Hook up this repo as a subrepo:
+
     mkdir -p code
     cd code
     git submodule add https://github.com/filipggg/trocr-runner.git
@@ -20,8 +24,8 @@ Hook up this repo as a subrepo:
 Install all requirements (preferably in an virtual env):
 
     python -m env ~/v/trocr
-    . ~/v/trocr/activate/bin
-    (cd code/trocr-runner && ./prepare.sh)
+    . ~/v/trocr/bin/activate
+    (cd trocr-runner && ./prepare.sh)
 
 Run helper script:
 

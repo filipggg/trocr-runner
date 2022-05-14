@@ -1,6 +1,10 @@
 -f https://download.pytorch.org/whl/torch_stable.html
 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu110/torch1.7/index.html
 
+# change cu113 if the version of CUDA is different
+torch==1.11.0+cu113
+torchvision==0.12.0+cu113
+
 absl-py==1.0.0
 antlr4-python3-runtime==4.8
 bitarray==2.5.1
@@ -50,9 +54,7 @@ tensorboard==2.9.0
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.1
 timm==0.4.5
-torch==1.11.0+cu113
 torchaudio==0.11.0+rocm4.5.2
-torchvision==0.12.0+cu113
 tqdm==4.64.0
 typing_extensions==4.2.0
 urllib3==1.26.9
