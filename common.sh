@@ -4,7 +4,7 @@ MODEL_NAME=$(yq -r .params.model gonito.yaml)
 ARCH=${MODEL_NAME#trocr-}
 ARCH=${ARCH%-*}
 
-: ${CHALLENGE_DIR=../..}
+: ${CHALLENGE_DIR=$(pwd)/../..}
 SAVE_PATH=$CHALLENGE_DIR/models
 
 if [[ "$CUDA_VISIBLE_DEVICES" == "" ]]

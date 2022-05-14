@@ -16,20 +16,25 @@ fi
 : ${LOG_DIR=log_$MODEL_NAME}
 mkdir -p ${LOG_DIR}
 
+GONITO_YAML=gonito.yaml
+
 if [[ "$TROCR_DATA_DIR" == ""  ]]
 then
-    echo >&2 "TODO EXITING"
-    exit 1
+    TROCR_DATA_DIR=$(mktemp -d -t trocrrunnerpXXXXXX)
+    paste $CHALLENGE_DIR/train/in.tsv $CHALLENGE_DIR/train/expected.tsv > $TROCR_DATA_DIR/gt_train.txt
+    paste $CHALLENGE_DIR/dev-0/in.tsv $CHALLENGE_DIR/dev-0/expected.tsv > $TROCR_DATA_DIR/gt_valid.txt
+    ln -s $CHALLENGE_DIR/images $TROCR_DATA_DIR/image
+    GONITO_YAML=$CHALLENGE_DIR/gonito.yaml
 fi
 
-BSZ=$(yq -r '.params."batch-size"' gonito.yaml)
-valid_BSZ=$(yq -r '.params."validation-batch-size"' gonito.yaml)
-MAX_EPOCHS=$(yq -r '.params."max-epochs"' gonito.yaml)
-PATIENCE=$(yq -r .params.patience gonito.yaml)
-LR=$(yq -r .params.lr gonito.yaml)
-WEIGHT_DECAY=$(yq -r '.params."weight-decay"' gonito.yaml)
-WARMUP_UPDATES=$(yq -r '.params."warmup-updates"' gonito.yaml)
-WARMUP_INIT_LR=$(yq -r '.params."warmup-init-lr"' gonito.yaml)
+BSZ=$(yq -r '.params."batch-size"' $GONITO_YAML)
+valid_BSZ=$(yq -r '.params."validation-batch-size"' $GONITO_YAML)
+MAX_EPOCHS=$(yq -r '.params."max-epochs"' $GONITO_YAML)
+PATIENCE=$(yq -r .params.patience $GONITO_YAML)
+LR=$(yq -r .params.lr $GONITO_YAML)
+WEIGHT_DECAY=$(yq -r '.params."weight-decay"' $GONITO_YAML)
+WARMUP_UPDATES=$(yq -r '.params."warmup-updates"' $GONITO_YAML)
+WARMUP_INIT_LR=$(yq -r '.params."warmup-init-lr"' $GONITO_YAML)
 
 if [[ "$ARCH" == "small" ]]
 then
