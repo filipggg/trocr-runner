@@ -48,6 +48,7 @@ fi
 fairseq-train \
     --data-type STR --user-dir unilm/trocr --task text_recognition \
     --arch trocr_${ARCH} \
+    --no-epoch-checkpoints \
     --seed 1111 --optimizer adam --lr ${LR} --lr-scheduler inverse_sqrt \
     --warmup-init-lr ${WARMUP_INIT_LR} --warmup-updates ${WARMUP_UPDATES} --weight-decay ${WEIGHT_DECAY} --log-format tqdm \
     --log-interval 10 --batch-size ${BSZ} --batch-size-valid ${valid_BSZ} --save-dir ${SAVE_PATH} \
