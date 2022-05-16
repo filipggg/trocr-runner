@@ -10,7 +10,7 @@ then
 fi
 
 MODEL_NAME=$(yq -r .params.model $GONITO_YAML)
-FINE_TUNING=$(yq -r ".params.fine-tuning" $GONITO_YAML)
+FINE_TUNING=$(yq -r '.params."fine-tuning"' $GONITO_YAML)
 
 : ${MODEL_CACHE=~/.cache/trocr-runner/models}
 mkdir -p $MODEL_CACHE
