@@ -14,3 +14,4 @@ params:
   warmup-updates: 500
   weight-decay: 0.0001
   beam: 10
+  fine-tuning: true

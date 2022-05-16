@@ -2,17 +2,15 @@
 
 . common.sh
 
-GONITO_YAML=gonito.yaml
-
-if [[ "$TROCR_DATA_DIR" == ""  ]]
-then
-    GONITO_YAML=$CHALLENGE_DIR/gonito.yaml
-fi
-
 BSZ=$(yq -r '.params."prediction-batch-size"' $GONITO_YAML)
 BEAM=$(yq -r '.params.beam' $GONITO_YAML)
 
-MODEL=${SAVE_PATH}/checkpoint_best.pt
+if [[ "$FINE_TUNING" == "false" ]]
+then
+    MODEL=${MODEL_PATH}
+else
+    MODEL=${SAVE_PATH}/checkpoint_best.pt
+fi
 
 if [[ "$ARCH" == "small" ]]
 then

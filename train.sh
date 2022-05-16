@@ -1,22 +1,20 @@
 #!/bin/bash -e
 
-: ${MODEL_CACHE=~/.cache/trocr-runner/models}
-
-mkdir -p $MODEL_CACHE
 
 . common.sh
-
-MODEL_PATH=${MODEL_CACHE}/${MODEL_NAME}.pt
 
 if [[ ! -r "$MODEL_PATH" ]]
 then
     wget -O "$MODEL_PATH" https://layoutlm.blob.core.windows.net/trocr/model_zoo/fairseq/${MODEL_NAME}.pt
 fi
 
+if [[ "$FINE_TUNING" == "false" ]]
+then
+    exit 0
+fi
+
 : ${LOG_DIR=log_$MODEL_NAME}
 mkdir -p ${LOG_DIR}
-
-GONITO_YAML=gonito.yaml
 
 if [[ "$TROCR_DATA_DIR" == ""  ]]
 then
@@ -24,7 +22,6 @@ then
     paste $CHALLENGE_DIR/train/in.tsv $CHALLENGE_DIR/train/expected.tsv > $TROCR_DATA_DIR/gt_train.txt
     paste $CHALLENGE_DIR/dev-0/in.tsv $CHALLENGE_DIR/dev-0/expected.tsv > $TROCR_DATA_DIR/gt_valid.txt
     ln -s $CHALLENGE_DIR/images $TROCR_DATA_DIR/image
-    GONITO_YAML=$CHALLENGE_DIR/gonito.yaml
 fi
 
 BSZ=$(yq -r '.params."batch-size"' $GONITO_YAML)

@@ -1,11 +1,25 @@
 
-MODEL_NAME=$(yq -r .params.model gonito.yaml)
+: ${CHALLENGE_DIR=$(pwd)/../..}
+SAVE_PATH=$CHALLENGE_DIR/models
+
+GONITO_YAML=gonito.yaml
+
+if [[ "$TROCR_DATA_DIR" == ""  ]]
+then
+    GONITO_YAML=$CHALLENGE_DIR/gonito.yaml
+fi
+
+MODEL_NAME=$(yq -r .params.model $GONITO_YAML)
+FINE_TUNING=$(yq -r ".params.fine-tuning" $GONITO_YAML)
+
+: ${MODEL_CACHE=~/.cache/trocr-runner/models}
+mkdir -p $MODEL_CACHE
+
+MODEL_PATH=${MODEL_CACHE}/${MODEL_NAME}.pt
 
 ARCH=${MODEL_NAME#trocr-}
 ARCH=${ARCH%-*}
 
-: ${CHALLENGE_DIR=$(pwd)/../..}
-SAVE_PATH=$CHALLENGE_DIR/models
 
 if [[ "$CUDA_VISIBLE_DEVICES" == "" ]]
 then
